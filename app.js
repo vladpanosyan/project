@@ -26,7 +26,9 @@ module.exports = (async () => {
   const {
     userRouter,
     portalRouter,
-    nicknameRouter
+    nicknameRouter,
+    questionRouter,
+    answerRouter
   }   = await require('./routes')()
   
   // app.use('/', indexRouter);
@@ -34,6 +36,8 @@ module.exports = (async () => {
   app.use('/users', userRouter);
   app.use('/portals', portalRouter);
   app.use('/nicknames', nicknameRouter)
+  app.use('/questions', questionRouter)
+  app.use('/answers', answerRouter)
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {

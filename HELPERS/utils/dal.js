@@ -12,7 +12,7 @@ module.exports = (models, DAL, ORM) => {
     } else {
         // console.log(models, 8888)
         for (let model in models[ORM]) {
-            DALS[model] = new DAL[model](models[ORM][model])
+            DALS[model] = new DAL[model](models[ORM][model], models[ORM])// ste avelacra 2 dependency all models
         }
     }
     return DALS

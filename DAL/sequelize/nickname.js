@@ -1,7 +1,8 @@
 
 module.exports = class Nickname { 
-    constructor(model) {
-        this.model = model
+    constructor(model, models) {
+        this.model = model,
+        this.models = models
     }
 
     async createData(data) {
@@ -14,9 +15,18 @@ module.exports = class Nickname {
     // }
 
     async getAll() {
-        console.log(Portals, 1919191)
 
-        let nicknames = await this.model.findAll()
+        let nicknames = await this.model.findAll({
+            include: [{
+                model: this.models.Portals,
+                include: [{
+                    model: this.models.Users,
+                    where: {
+                        firstName: 'bbbb' 
+                    }
+                }]
+            }]
+        })
         return nicknames;
     }
     

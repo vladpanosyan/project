@@ -38,6 +38,15 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'userId',
             // as: 'port'
         });
+        User.hasMany(models.Answers, {
+            foreignKey: 'userId',
+            // as: 'port'
+        });
+        User.belongsToMany(models.Questions, {
+            through: 'users_likes',
+            foreignKey: 'userId',
+            timestamps: false
+        })
     };
 
     return User;

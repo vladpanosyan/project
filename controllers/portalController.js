@@ -43,10 +43,7 @@
 
 module.exports = async () => {
     try {
-        const {
-            Portals
-        } = await require('../app_init/dal_service_init')();
-        console.log(Portals, 555)
+        const { Portals } = await require('../app_init/dal_service_init')();
         return {
             portalController: new PortalController(Portals),
         }

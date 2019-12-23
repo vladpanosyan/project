@@ -33,9 +33,7 @@ class NicknameController {
 
 module.exports = async () => {
     try {
-        const {
-            Nicknames
-        } = await require('../app_init/dal_service_init')();
+        const { Nicknames } = await require('../app_init/dal_service_init')();
         return {
             nicknameController: new NicknameController(Nicknames),
         }

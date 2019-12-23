@@ -6,23 +6,43 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             primaryKey: true
         },
-        email: {
-            type: DataTypes.STRING(60)
+        question: {
+            type: DataTypes.TEXT
         },
-        query: {
-            type: DataTypes.TEXT    
+        isDeleted: {
+            type: DataTypes.BOOLEAN    
+        },
+        time: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
         },
         
     }, {
         timestamps: false,
-        tableName: 'users'
+        tableName: 'questions'
     });
 
     Question.associate = function (models) {
-        Question.hasMany(models.Portals, {
-            foreignKey: 'userId',
-            // as: 'orders'
+        Question.belongsTo(models.Portals, {
+            foreignKey: 'portalId',
         });
+        Question.belongsTo(models.Nicknames, {
+            foreignKey: 'nicknameId',
+        });
+        Question.belongsToMany(models.Nicknames, {
+            through: 'nicks_likes',
+            foreignKey: 'questionId',
+            timestamps: false
+        })
+        Question.belongsToMany(models.Users, {
+            through: 'users_likes',
+            foreignKey: 'questionId',
+            timestamps: false
+        })
+        Question.hasMany(models.Answers, {
+            foreignKey: 'questionId'
+        })
     };
 
     return Question;

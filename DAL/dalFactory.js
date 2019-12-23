@@ -4,12 +4,6 @@ const sequelizeDal = require('./sequelize')// object of DAL classes(CustomerDal,
 const mongooseDal  = require('./mongoose')
 // const mongooseDAl = require('./mongoose')
 
-// dal patasxnatu e db-neri het A hamar, service-i mievnuyn interface-n kara tarber
-// DAL-er irakanacni, kaxvac inch vor paymanic(orinak db popoxutyun mekic myusin), Servicein 
-// chi hetaqrqrum te DAL inch e anum, Ayn menak DAL ic spacum e patasxani vor ta controllerin
-
-// ir hertin DAL - interfacener@ (createData, getAll, deletCustomer, etc) ankax naranic te ogtagorcum es mongo 
-// te SQL, metq e unenan nuyn interfacen(chi kara mongo - i depqum lini createData(), is SQL->createMATA())
 class DalFactory {
     constructor(models) {
         this.models = models// {Customers: Customers, Orders: Orders}

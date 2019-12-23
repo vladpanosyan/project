@@ -45,9 +45,7 @@ class UserController {
 
 module.exports = async () => {
     try {
-        const {
-            Users
-        } = await require('../app_init/dal_service_init')();
+        const { Users } = await require('../app_init/dal_service_init')();
         return {
             userController: new UserController(Users),
         }

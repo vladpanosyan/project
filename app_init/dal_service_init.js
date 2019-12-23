@@ -7,6 +7,7 @@ module.exports = (async () => {
         const DAL = new DalFactory(models)
         const SERVICES = new AbstractServiceFactory(DAL.create()).create() 
         // ete petq e vor miajamanak A 2 db neri het apa dra hamar arandzin service pti sargvi,
+        console.log(SERVICES, 36363636)
         return SERVICES
         
     } catch (error) {

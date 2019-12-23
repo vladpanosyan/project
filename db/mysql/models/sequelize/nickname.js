@@ -20,6 +20,22 @@ module.exports = (sequelize, Sequelize) => {
             foreignKey: 'portalId',
             // as: 'customers'
         });
+        Nickname.belongsToMany(models.Portals, {
+            through: 'nicks_portals',
+            foreignKey: 'nicknameId',
+            timestamps: false
+        })
+        
+        Nickname.hasMany(models.Questions, {
+            foreignKey: 'nicknameId',
+            // as: 'customers'
+        });
+        Nickname.belongsToMany(models.Questions, {
+            through: 'nicks_likes',
+            foreignKey: 'nicknameId',
+            timestamps: false
+        })
+
     };
 
     return Nickname;

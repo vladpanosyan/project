@@ -15,7 +15,6 @@ module.exports = (sequelize, Sequelize) => {
         start: {
             type: Sequelize.DATE
         }
-        
     }, {
         timestamps: false,
         tableName: 'portals'
@@ -24,8 +23,18 @@ module.exports = (sequelize, Sequelize) => {
     Portal.associate = function (models) {
         Portal.belongsTo(models.Users, {
             foreignKey: 'userId',
-            // as: 'customers'
+            // as:
         });
+        Portal.belongsToMany(models.Nicknames, {
+            through: 'nicks_portals',
+            foreignKey: 'portalId'
+        });
+        Portal.hasMany(models.Nicknames, {
+            foreignKey: 'portalId'
+        })
+        Portal.hasMany(models.Questions, {
+            foreignKey: 'portalId'
+        })
     };
 
     return Portal;
