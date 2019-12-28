@@ -27,20 +27,21 @@ class AnswerController {
         const answerId = await this.answerService.deleteById(request.params.id)
         if (answerId) {
             response.status(200).end(`answerId in id - ${answerId.id} has deleted`)
-        } els('User not found for deleting')
+        } else('User not found for deleting')
     }
 }
 
-module.exports = async () => {
-    try {
-        const { Answers } = await require('../app_init/dal_service_init')();
-        return {
-            answerController: new AnswerController(Answers),
-        }
-    } catch (error) {
-console.log(error, 210989)
-        // if (error.message === "db connect error") {
-        //     throw new Error('db connect error')
-        // }
-    }
-}
+module.exports = AnswerController
+// module.exports = async () => {
+//     try {
+//         const { Answers } = await require('./index')();
+//         return {
+//             answerController: new AnswerController(Answers),
+//         }
+//     } catch (error) {
+// console.log(error, 210989)
+//         // if (error.message === "db connect error") {
+//         //     throw new Error('db connect error')
+//         // }
+//     }
+// }

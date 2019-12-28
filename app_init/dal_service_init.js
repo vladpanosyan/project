@@ -1,14 +1,15 @@
-const DalFactory = require('./../DAL/dalFactory');
+const DalFactory             = require('./../DAL/dalFactory');
 const AbstractServiceFactory = require('./../services/abstractServiceFactory')
+const ControllerFactory      = require('./../controllers/controllerFactory')
 
-module.exports = (async () => {
+module.exports = (async () => { 
     try {
         const models = await require('./../db')() // array of objects model
         const DAL = new DalFactory(models)
         const SERVICES = new AbstractServiceFactory(DAL.create()).create() 
         // ete petq e vor miajamanak A 2 db neri het apa dra hamar arandzin service pti sargvi,
-        console.log(SERVICES, 36363636)
-        return SERVICES
+        const CONTROLLERS = new ControllerFactory(SERVICES).create()
+        return CONTROLLERS;
         
     } catch (error) {
         // ste kara kodi normal A jamanak(erb orinak db miacac a ) eli error trni u xarnvi db errori het vor@
@@ -16,5 +17,6 @@ module.exports = (async () => {
         // object ev veradarcnum hamapatasxan errori tesk@, dra hamara karas ogtvr]es nayev nayes Rudiki helpers 
         // folderi enums.js ic
         console.log(error.message, 3333333331)
+        throw new Error('eli connection error "from -> dal_service_init"')
     }
 })

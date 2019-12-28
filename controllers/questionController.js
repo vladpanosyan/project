@@ -30,17 +30,18 @@ class QuestionController {
         } els('User not found for deleting')
     }
 }
+module.exports = QuestionController
 
-module.exports = async () => {
-    try {
-        const { Questions } = await require('../app_init/dal_service_init')();
-        return {
-            questionController: new QuestionController(Questions),
-        }
-    } catch (error) {
-console.log(error, 210989)
-        // if (error.message === "db connect error") {
-        //     throw new Error('db connect error')
-        // }
-    }
-}
+// module.exports = async () => {
+//     try {
+//         const { Questions } = await require('./index')();
+//         return {
+//             questionController: new QuestionController(Questions),
+//         }
+//     } catch (error) {
+// console.log(error, 210989)
+//         // if (error.message === "db connect error") {
+//         //     throw new Error('db connect error')
+//         // }
+//     }
+// }

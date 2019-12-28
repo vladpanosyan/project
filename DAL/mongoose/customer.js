@@ -9,7 +9,6 @@ module.exports = class Customer {
         return user
     }
     async getAll() {
-        console.log(747474747)
         let users = await this.model.find()
         return users;
     }

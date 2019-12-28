@@ -31,16 +31,18 @@ class NicknameController {
     }
 }
 
-module.exports = async () => {
-    try {
-        const { Nicknames } = await require('../app_init/dal_service_init')();
-        return {
-            nicknameController: new NicknameController(Nicknames),
-        }
-    } catch (error) {
-console.log(error, 474747474)
-        // if (error.message === "db connect error") {
-        //     throw new Error('db connect error')
-        // }
-    }
-}
+module.exports = NicknameController
+
+// module.exports = async () => {
+//     try {
+//         const { Nicknames } = await require('./index')();
+//         return {
+//             nicknameController: new NicknameController(Nicknames),
+//         }
+//     } catch (error) {
+//     console.log(error.message, 474747474)
+//         // if (error.message === "db connect error") {
+//         //     throw new Error('db connect error')
+//         // }
+//     }
+// }

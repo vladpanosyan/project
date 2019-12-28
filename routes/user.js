@@ -1,12 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports =  async () => {
-  const {
-    userController,
+module.exports = async (userController) => {
+  try {
+    // const { userController } = await require('../controllers/userController')()
+    router.get('/', userController.showResult.bind(userController));
+    router.post('/register', userController.createUser.bind(userController));
+    router.get('/profile/:id', userController.getUsersById.bind(userController))
+    return router;
 
-  } = await require('../controllers/userController')()
-  router.get('/', userController.showResult.bind(userController));
-  router.get('/c', userController.createUser.bind(userController));
-  return  router;
+  } catch (error) {
+      console.log('Connection Error "from -> userRouter"', error.message, 1616161616)
+  }
 }

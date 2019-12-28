@@ -41,16 +41,17 @@
 
 }
 
-module.exports = async () => {
-    try {
-        const { Portals } = await require('../app_init/dal_service_init')();
-        return {
-            portalController: new PortalController(Portals),
-        }
-    } catch (error) {
-console.log(error, 210989)
-        // if (error.message === "db connect error") {
-        //     throw new Error('db connect error')
-        // }
-    }
-}
+module.exports = PortalController
+// module.exports = async () => {
+//     try {
+//         const { Portals } = await require('./index')();
+//         return {
+//             portalController: new PortalController(Portals),
+//         }
+//     } catch (error) {
+// console.log(error, 210989)
+//         // if (error.message === "db connect error") {
+//         //     throw new Error('db connect error')
+//         // }
+//     }
+// }

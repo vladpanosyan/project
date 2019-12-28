@@ -1,4 +1,6 @@
 
+const bcrypt = require('bcryptjs')
+
 module.exports = (sequelize, DataTypes) => {
     var User = sequelize.define('Users', {
         id: {
@@ -7,7 +9,11 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         email: {
-            type: DataTypes.STRING(60)
+            type: DataTypes.STRING(60),
+            unique: {
+                args: true,
+                msg: 'The email you entered is already exist'
+            },
         },
         firstName: {
             type: DataTypes.STRING(50)
@@ -15,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         lastName: {
             type: DataTypes.STRING(50)
         },
+        password: DataTypes.STRING(),
         img: {
             type: DataTypes.STRING()
         },
@@ -30,7 +37,21 @@ module.exports = (sequelize, DataTypes) => {
         // }
     }, {
         timestamps: false,
-        tableName: 'users'
+        tableName: 'users',
+        
+        // defaultScope: {
+        //     exclude: ['password']
+        // }
+        // classMethods: {
+        //     async generateHash(password) {
+        //         const salt = await bcrypt.genSalt(10);
+        //         return bcrypt.hash(password, salt);
+        //     },
+        //     async validPassword(password) {
+        //         return bcrypt.compare(password, this.password);
+        //     }
+        // }
+        // classMethods:
     });
 
     User.associate = function (models) {
@@ -49,5 +70,9 @@ module.exports = (sequelize, DataTypes) => {
         })
     };
 
+    User.generateHash = async(password) => {
+        const salt = await bcrypt.genSalt(10);
+        return bcrypt.hash(password, salt);
+    }
     return User;
 };

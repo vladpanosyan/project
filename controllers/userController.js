@@ -1,3 +1,5 @@
+const AppError = require('./../HELPERS/ErrorHandling/AppError')
+const userValidation = require('./../HELPERS/validation/userValidation')
 
 class UserController {
     constructor(userService) {
@@ -5,7 +7,6 @@ class UserController {
     }
     // find
     async showResult(request, response, next) {
-  console.log(11111111)
         
         try{
             console.log(32323232323, 'in controller')
@@ -14,14 +15,43 @@ class UserController {
         }
         catch(e) {
             console.log(e.message, 15551515151515) /// amena lav error handlingi tex@
+            next(new AppError('wtf', e))
         }
     }
 
     //create 
     async createUser(request, response, next) {
-        const userId = await this.userService.createUser()
-        response.json(userId)
+        try {
+            const user = request.body;
+            const isValidUserData = userValidation(request.body)
+            console.log(isValidUserData.error, 210989)
+    
+            if(isValidUserData.error === null) {
+                const userData = await this.userService.createUser(user)
+                response.json(userData)
+            } else {
+                response.json({
+                    userData: 'notvalid'
+                })
+            }
+            
+        } catch (error) {
+            // next(new AppError(error.message, error))
+            console.log(error.message, 5353553)
+            response.status(501).json({
+                userData: 'no_user_data'
+            })
+        }
     }
+    
+    async getUsersById(request, response, next) {
+        const Id = request.params.id
+        const user = await this.userService.getUserById(Id)
+        if (user) {
+            response.status(200).json(user)
+        } else next('User not found for get')
+    }
+
 
     // delete by id
     async deleteUser(request, response, next) {
@@ -42,17 +72,21 @@ class UserController {
     }
 
 }
+module.exports = UserController
 
-module.exports = async () => {
-    try {
-        const { Users } = await require('../app_init/dal_service_init')();
-        return {
-            userController: new UserController(Users),
-        }
-    } catch (error) {
-console.log(error, 474747474)
-        // if (error.message === "db connect error") {
-        //     throw new Error('db connect error')
-        // }
-    }
-}
+// module.exports = async () => {
+//     try {
+//         // const { Users } = await require('../app_init/dal_service_init')();
+//         const { Users } = await require('./index')();
+
+//         return {
+//             userController: new UserController(Users),
+//         }
+//     } catch (error) {
+// console.log(error.message, 474747474)
+//         // if (error.message === "db connect error") {
+//         //     throw new Error('db connect error')
+//         // }
+//         throw new Error('Connection error "from -> userController"')
+//     }
+// }

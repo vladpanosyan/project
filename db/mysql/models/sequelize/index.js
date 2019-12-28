@@ -1,4 +1,4 @@
-const { DbError, TableCreatError } = require('./../../../../HELPERS/ErrorHandling/DbError')
+const AppError = require('./../../../../HELPERS/ErrorHandling/AppError')
 var fs        = require('fs');
 var path      = require('path');
 const { Sequelize } = require('sequelize')
@@ -50,10 +50,9 @@ module.exports = sequelize
     .then(res => {
         // db.Customers.findAll({raw:true,where: {}})
         // .then(customer => console.log(customer))
-        // console.log(res)
-        return db
+        return db //exports into mysql/models/index.js
     })
     .catch(err => {
         console.error('Unable to connect to the database:', err.message, 555555555555);
-        throw new TableCreatError('Connection error, check DB connection', err)
+        throw new AppError('Connection error, check DB connection', err)
     })
