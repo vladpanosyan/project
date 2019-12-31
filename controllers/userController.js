@@ -1,5 +1,5 @@
 const AppError = require('./../HELPERS/ErrorHandling/AppError')
-const userValidation = require('./../HELPERS/validation/userValidation')
+const { userValidation, userLoginValidation } = require('./../HELPERS/validation/userValidation')
 
 class UserController {
     constructor(userService) {
@@ -44,9 +44,37 @@ class UserController {
         }
     }
     
+    async userLogin(request, response, next) {
+        // const { username, password } = request.body;
+        try {
+            const loginData = request.body;
+            const isValidLoginData = userLoginValidation(loginData)
+            if(isValidLoginData.error === null) {
+                const user = await this.userService.getUserByEmail(loginData)
+                if(user) {
+                    response.json(user);
+                } else {
+                   throw new Error('invalid login data') 
+                }
+            } else {
+                response.json({
+                    loginData: 'Not Valid'
+                })
+            }
+        } catch (error) {
+            console.log(error.message, 2000000000)
+            response.status(501).json({
+                userData: 'login data incorrect'
+            })
+        }
+
+        
+    }
+
     async getUsersById(request, response, next) {
         const Id = request.params.id
         const user = await this.userService.getUserById(Id)
+        console.log('inside cuserController', 3636)
         if (user) {
             response.status(200).json(user)
         } else next('User not found for get')

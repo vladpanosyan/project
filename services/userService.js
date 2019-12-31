@@ -18,7 +18,6 @@ class Users {
                 const tokenObj = new JWT(payload, {expiresIn: 60 * 60});
                 const token = tokenObj.createToken();
                 user.token = token;
-                console.log(user, 898989898)
                 return user
             } else {
                 console.log(user, 55555555555)
@@ -45,6 +44,21 @@ class Users {
         let user = await this.userDal.getByUserId(id)
         return user;
     }
+
+    async getUserByEmail(data) {
+        let user = await this.userDal.getUserByEmail(data)
+        if(user) {
+            const payload = {};
+            ({id: payload.id, firstName: payload.firstName, lastName: payload.lastName} = user);
+            const tokenObj = new JWT(payload, {expiresIn: 60 * 60});
+            const token = tokenObj.createToken();
+            user.token = token;
+            delete user.password;
+            return user;
+        }
+        return;
+    }
+
     async deleteById(id) {
         let deletedUser = await this.userDal.deleteUser(id)
         if (deletedUser) {

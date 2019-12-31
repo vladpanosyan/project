@@ -50,6 +50,8 @@ module.exports = sequelize
     .then(res => {
         // db.Customers.findAll({raw:true,where: {}})
         // .then(customer => console.log(customer))
+        // console.log(db)
+        global.UserModel = db.Users;
         return db //exports into mysql/models/index.js
     })
     .catch(err => {

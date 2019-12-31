@@ -74,5 +74,10 @@ module.exports = (sequelize, DataTypes) => {
         const salt = await bcrypt.genSalt(10);
         return bcrypt.hash(password, salt);
     }
+
+    User.validPassword = async(password, hashPassword) => {
+        return bcrypt.compare(password, hashPassword);
+    }
+
     return User;
 };

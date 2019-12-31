@@ -1,9 +1,11 @@
 // console.log(CONTROLLERS, 71717177717)
-
+const { authMiddleware } = require('./../middlewares/JWT_passport');
+console.log(authMiddleware, 363636363636)
 module.exports = async() => {
     try {
         const CONTROLLERS    = await require('./../app_init/dal_service_init')();
-        const userRouter     = await require('./user')(CONTROLLERS.Users)
+
+        const userRouter     = await require('./user')(CONTROLLERS.Users, authMiddleware)
         const portalRouter   = await require('./portal')(CONTROLLERS.Portals)
         const nicknameRouter = await require('./nickname')(CONTROLLERS.Nicknames)
         const questionRouter = await require('./queston')(CONTROLLERS.Questions)  

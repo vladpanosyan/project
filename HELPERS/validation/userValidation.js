@@ -1,6 +1,6 @@
 const JOI = require('joi')
 
-module.exports = function userValidation(userData) {
+exports.userValidation = function(userData) {
     const schema = JOI.object().keys({
         firstName: JOI.string().required(),
         lastName: JOI.string().required(),
@@ -10,3 +10,12 @@ module.exports = function userValidation(userData) {
     })
     return JOI.validate(userData, schema)
 } 
+
+exports.userLoginValidation = function(loginData) {
+    const schema = JOI.object().keys({
+        username: JOI.string().email().required(),
+        password: JOI.string().regex(/^[a-zA-Z0-9]{6,30}$/),
+        
+    })
+    return JOI.validate(loginData, schema)
+}
