@@ -17,3 +17,4 @@ module.exports = (models, DAL, ORM) => {
     }
     return DALS
 }
+//exports into dalFactory.js

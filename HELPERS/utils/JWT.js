@@ -14,4 +14,8 @@ module.exports = class JWTFutures {
     verifyToken(token) {
         return JWT.verify(token, SECRET_KEY)
     }
+
+    createTokenForURL() {
+        return JWT.sign(this.payload, SECRET_KEY).split('.')[2];
+    }
 }

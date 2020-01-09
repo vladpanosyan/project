@@ -13,7 +13,7 @@ const http = require('http');
     const app = await require('../app')()
     startApp(app);
   } catch (error) {
-    console.log(error.name, 333333)
+    console.log(error, 333333)
 
     const app = await require('../app')(error.cause.message)
     startApp(app)

@@ -3,12 +3,11 @@
         this.portalService = portalService
     }
     // find
-    async showResult(request, response) {
+    async getAll(request, response) {
         try{
             console.log(32323232323, 'in controller PORTAL')
-            let portals = await this.portalService.getAllPortals()
-            console.log(portals, 4444444)
-            response.json({ portals })
+            let portals = await this.portalService.getAll()
+            response.json(portals)
         }
         catch(e) {
             console.log(e.message, 15551515151515) /// amena lav error handlingi tex@
@@ -17,8 +16,9 @@
 
     //create 
     async createPortal(request, response) {
-        const portalId = await this.portalService.createUser()
-        response.json(portalId)
+        const portalData = request.body;
+        const portal = await this.portalService.createPortal(portalData)
+        response.json(portal)
     }
 
     // delete by id
@@ -27,8 +27,42 @@
         const portalId = await this.portalService.deleteById(request.params.id)
         if (portalId) {
             response.status(200).end(`portalId in id - ${portalId.id} has deleted`)
-        } els('User not found for deleting')
+        } else('User not found for deleting')
     }
+
+    // start
+    async startPortal(request, response) {
+        try {
+            const token = request.params.token;
+            const portalId = request.body.id;
+            const isStarted = await this.portalService.startPortal(portalId, token);
+            response.json({success: 'ok', isStarted})
+            
+        } catch (error) {
+            response.status(500).send({error: error.message})
+        }
+    }
+    // active
+    async getActivePortal(request, response) {
+        try {
+            const activePortal = await this.portalService.getActivePortal();
+            response.json(activePortal)
+        } catch (error) {
+            response.status(500).json({error: error.message})
+        }
+    }
+
+    // check subscribers permision 
+    async checkToken(request, response) {
+        try {
+            const { token } = request.body;
+            const isValid = await this.portalService.checkToken(token);
+            response.json(isValid)
+            
+        } catch (error) {
+            response.status(501).json({error: error.message})
+        }
+    } 
     // // updete
     // async updatePortal(request, response) {
     //     const Id = request.params.id;

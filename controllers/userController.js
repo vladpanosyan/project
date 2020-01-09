@@ -48,9 +48,9 @@ class UserController {
         // const { username, password } = request.body;
         try {
             const loginData = request.body;
-            const isValidLoginData = userLoginValidation(loginData)
+            const isValidLoginData = userLoginValidation(loginData);
             if(isValidLoginData.error === null) {
-                const user = await this.userService.getUserByEmail(loginData)
+                const user = await this.userService.getUserByEmail(loginData);
                 if(user) {
                     response.json(user);
                 } else {
@@ -80,6 +80,20 @@ class UserController {
         } else next('User not found for get')
     }
 
+    // check FC auth login
+    async facebookAuthCheck(request, response, next) {
+        if ( !request.user) {
+            response.send(401, 'user not found Bro')
+        }
+        const payload = {
+            id: request.user.id,
+            firstName: request.user.firstName,
+            lastName: request.user.lastName
+        }
+        const access_token = this.userService.generateTokenForSocila(payload);
+        request.user.access_token = access_token;
+        response.json(request.user);
+    }
 
     // delete by id
     async deleteUser(request, response, next) {

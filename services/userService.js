@@ -11,13 +11,14 @@ class Users {
     }
     async createUser(data) {
         try {
+            data.img = process.env.USER_DEFAULT_IMAGE;
             let user = await this.userDal.createData(data)
             if (user) {
                 const payload = {};
                 ({id: payload.id, firstName: payload.firstName, lastName: payload.lastName} = user);
                 const tokenObj = new JWT(payload, {expiresIn: 60 * 60});
                 const token = tokenObj.createToken();
-                user.token = token;
+                user.access_token = token;
                 return user
             } else {
                 console.log(user, 55555555555)
@@ -52,7 +53,7 @@ class Users {
             ({id: payload.id, firstName: payload.firstName, lastName: payload.lastName} = user);
             const tokenObj = new JWT(payload, {expiresIn: 60 * 60});
             const token = tokenObj.createToken();
-            user.token = token;
+            user.access_token = token;
             delete user.password;
             return user;
         }
@@ -72,6 +73,14 @@ class Users {
         if (updatedUser) {
             return updatedUser
         } else errorLog('user not found for Updateing')
+    }
+
+    // Other
+    generateTokenForSocila(payload) {
+        console.log(payload, 454545454)
+        const tokenObj = new JWT(payload, {expiresIn: 60 * 60});
+        const token = tokenObj.createToken(); 
+        return token;
     }
 }
 

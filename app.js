@@ -1,8 +1,8 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
+// const cors = require ('cors');
 const { passport_strategy } = require('./middlewares/JWT_passport');
-// const cors = require('cors');
 
 // const cookieParser = require('cookie-parser');
 // const logger = require('morgan');
@@ -10,9 +10,22 @@ const { passport_strategy } = require('./middlewares/JWT_passport');
 // const indexRouter = require('./routes/index');
 
 const app = express();
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+// const corsOption = {
+//   origin: true,
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   credentials: true,
+//   exposedHeaders: ['x-auth-token']
+// };
+// app.use(cors(corsOption));
 
 passport_strategy(app);
-// app.use(cors())
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,10 +61,10 @@ module.exports = (async (message) => {
     // app.use('/', indexRouter);
     // app.use('/api/users', userRouter);
     app.use('/api/users', userRouter);
-    app.use('/portals', portalRouter);
-    app.use('/nicknames', nicknameRouter)
-    app.use('/questions', questionRouter)
-    app.use('/answers', answerRouter)
+    app.use('/api/portals', portalRouter);
+    app.use('/api/nicknames', nicknameRouter)
+    app.use('/api/questions', questionRouter)
+    app.use('/api/answers', answerRouter)
 
     // catch 404 and forward to error handler
     app.use(function (req, res, next) {

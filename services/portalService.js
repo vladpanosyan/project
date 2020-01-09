@@ -1,17 +1,30 @@
+const URLToken = require('./../HELPERS/utils/JWT')
+const AppError = require ('./../HELPERS/ErrorHandling/AppError')
+
 class Portals {
     constructor(portalDal) {
         this.portalDal = portalDal
     }
     async createPortal(data) {
-        let portal = await this.portalDal.createData(data)
+        const token = new URLToken({id: data.userId, start: data.start}).createTokenForURL();
+        data.token = token;
+        let portal = await this.portalDal.createPortal(data)
         if (portal) {
             return portal
         } else {
             errorLog('portal not creted')
         } 
     }
-    async getAllPortals() {
-        let portal = await this.portalDal.getAllPortals()
+
+    async startPortal(id, token) {
+        const isStarted = await this.portalDal.startPortal(id, token);
+        if (isStarted) {
+            return isStarted;
+        } else throw new AppError('action failed ,see cause', 'event has been started or ended or wrong credentials')
+    }
+
+    async getAll() {
+        let portal = await this.portalDal.getAll();
         if (portal) {
             return portal
         } else {
@@ -19,12 +32,39 @@ class Portals {
             throw new Error('PORTAL NOT EXIST')
         } 
     }
+
+    async getActivePortal() {
+        const activePortal = await this.portalDal.getActivePortal();
+        if(activePortal) {
+            return activePortal;
+        } 
+        return {
+            message: 'Active Portal not exist'
+        }
+    }
+
     async deleteById(id) {
         let deletedPortal = await this.portalDal.deletePortal(id)
         if(deletedPortal) {
             return deletedPortal
         } else {
             errorLog('portal not found for deleting')
+        }
+    }
+
+    // 
+    async checkToken(token) {
+        const isValid = await this.portalDal.checkToken(token);
+        if (isValid) {
+            return {
+                ok: 'exist',
+                textContent: 'Right Token'
+            };
+        } else {
+            return {
+                ok: null,
+                textContent: 'Wrong Token'
+            }
         }
     }
     // async updateUserById(id, data) {

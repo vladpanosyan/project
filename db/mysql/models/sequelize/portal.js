@@ -14,6 +14,18 @@ module.exports = (sequelize, Sequelize) => {
         },
         start: {
             type: Sequelize.DATE
+        },
+        private: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: 0
+        },
+        isStarted: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: 0
+        },
+        isFinished: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: 0
         }
     }, {
         timestamps: false,
