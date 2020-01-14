@@ -67,8 +67,14 @@ class UserController {
                 userData: 'login data incorrect'
             })
         }
+    }
 
-        
+    // check token 
+
+    checkTokenValid(request, response) {
+        const { access_token } = request.body;
+        const isValid = this.userService.checkTokenValid(access_token);
+        response.status(200).send(!!isValid);
     }
 
     async getUsersById(request, response, next) {
@@ -113,7 +119,15 @@ class UserController {
         } else next(`User not found for Updateing`)
     }
 
+    // send email to ...
+    async sendMail(request, response) {
+        const {email, url} = request.body;
+        console.log(email, url, 1111111);
+        const result = await this.userService.sendMail(email, url);
+        response.json({result});
+    }
 }
+
 module.exports = UserController
 
 // module.exports = async () => {

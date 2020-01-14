@@ -3,20 +3,22 @@
 /**
  * Module dependencies.
  */
-const CONFIG = require('../app_init/config')
-const debug = require('debug')('app:server');
-const http = require('http');
+const CONFIG   = require('../app_init/config')
+const debug    = require('debug')('app:server');
+const http     = require('http');
+const socketIo = require('socket.io');
+
+const socketconnect = require('./../HELPERS/socket/socket');
 
 (async () => {
   try {
-    const DB_HEALTH = await require('./../db/mysql/models/sequelize')
-    const app = await require('../app')()
+    const DB_HEALTH = await require('./../db/mysql/models/sequelize');
+    const app = await require('../app')();
     startApp(app);
   } catch (error) {
     console.log(error, 333333)
-
-    const app = await require('../app')(error.cause.message)
-    startApp(app)
+    const app = await require('../app')(error.cause.message);
+    startApp(app);
   }
 })()
 
@@ -29,7 +31,10 @@ function startApp(app) {
    */
 
   var server = http.createServer(app);
-
+  const io = socketIo(server);
+  socketconnect(io);
+  
+  app.set('io', io);
   /**
    * Listen on provided port, on all network interfaces.
    */

@@ -9,8 +9,7 @@ module.exports = (passport) => (request, response, next) => {
             response.send(info.message)
         } else {
             console.log('user found in db from route')
-            // response.json(user)
-            // request.
+            
             next();
         }
     })(request, response, next)

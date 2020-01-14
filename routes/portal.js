@@ -8,6 +8,7 @@ module.exports = async (portalController) => {
     router.put('/:token', portalController.startPortal.bind(portalController));
     router.post('/checkToken', portalController.checkToken.bind(portalController))
     router.get('/active', portalController.getActivePortal.bind(portalController));
+    router.post('/portalStatus', portalController.getPortalStatus.bind(portalController));
     return  router;
   }
   

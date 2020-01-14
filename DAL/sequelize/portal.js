@@ -23,7 +23,7 @@ module.exports = class Portal {
         return portals;
     }
 
-    async getActivePortal() {
+    async getActivePortal() { // ste usumnasiri te vorna active portal
         const activePortal = await this.model.findAll({
             where: {
                 isStarted: 1,
@@ -34,10 +34,11 @@ module.exports = class Portal {
         return activePortal[0];
     }
 
-    async checkToken(token) {
+    async checkToken(data) {
         const isValid = await this.model.findAll({
             where: {
-                token
+                id: data.portalId,
+                token: data.token
             }
         });
         console.log(isValid, 7777777)
@@ -51,13 +52,21 @@ module.exports = class Portal {
         let portal = await this.model.destroy({ where: { id: id } })
         return portal;
     }
-    // async updatedPortal(id, data, fields = []) {
-    //     let updatedportal = await this.model.update(
-    //         data,
-    //         {
-    //             fields: fields.length ? field : null,
-    //             where: { id }
-    //         })
-    //     return !!updatedportal[0]
-    // }
+    //
+    async getPortalStatus(token) {
+        let portalData = await this.model.findAll({
+            raw: true,
+            attributes: ["id", "token", "private"],
+            where: {
+                token: token,
+                isFinished: 0,
+                isStarted: 1
+            }
+        })
+        if (portalData.length) {
+            return portalData[0]
+        }
+        return;
+        // console.log(portalStatus, 8888888888);
+    }
 }

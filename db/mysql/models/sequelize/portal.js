@@ -26,6 +26,10 @@ module.exports = (sequelize, Sequelize) => {
         isFinished: {
             type: Sequelize.BOOLEAN,
             defaultValue: 0
+        },
+        private: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: 0
         }
     }, {
         timestamps: false,

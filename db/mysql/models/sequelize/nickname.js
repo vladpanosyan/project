@@ -7,7 +7,14 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true
         },
         name: {
-            type: Sequelize.STRING(50)
+            type: Sequelize.STRING(50),
+            unique: {
+                args: true,
+                msg: 'The nickName that You entered is already exist'
+            },
+        },
+        image: {
+            type: Sequelize.STRING(255),
         }
         
     }, {

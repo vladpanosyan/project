@@ -14,7 +14,6 @@ module.exports = (passport) => {
         //     })
         // }, 
         facebookAuthCheck() {
-        console.log(33333333333333333)
            return passport.authenticate('facebook-token', {
                 // successRedirect: "/api/users/register",
                 session: false

@@ -53,8 +53,8 @@ class Portals {
     }
 
     // 
-    async checkToken(token) {
-        const isValid = await this.portalDal.checkToken(token);
+    async checkToken(data) {
+        const isValid = await this.portalDal.checkToken(data);
         if (isValid) {
             return {
                 ok: 'exist',
@@ -67,12 +67,14 @@ class Portals {
             }
         }
     }
-    // async updateUserById(id, data) {
-    //     let updatedUser = await this.portalDal.updatedUser(id, data)
-    //     if(updatedUser) {
-    //         return updatedUser
-    //     } else errorLog('portal not found for Updateing')
-    // }
+    //
+    async getPortalStatus(token) {
+        let portalStatus = await this.portalDal.getPortalStatus(token);
+        if (portalStatus) {
+            return portalStatus;
+        }
+        throw new Error("No Portal Portal POrtal .........");
+    }
 }
 
 module.exports = Portals

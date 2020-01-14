@@ -4,8 +4,6 @@ async function* fooo (){
     try {
         let dbmodel = db_orm.split('&&');
 
-        console.log(dbmodel, 4343434)
-        
         for(let ORM of dbmodel) {
             let model = await require(`./${ORM === 'sequelize' ? 'mysql' : 'mongo'}/models/${ORM}`)
             yield {[ORM]: model};

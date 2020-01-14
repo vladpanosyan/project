@@ -2,6 +2,17 @@ class NicknameController {
     constructor(nicknameService) {
         this.nicknameService = nicknameService
     }
+    //create 
+    async createNickname(request, response, next) {
+        const data = request.body;
+        try {
+            const nickname = await this.nicknameService.createNickname(data);
+            response.json(nickname)
+            
+        } catch (error) {
+            console.log(error.message, 15551515151515);
+        }
+    }
     // find
     async showResult(request, response, next) {
         
@@ -15,11 +26,6 @@ class NicknameController {
         }
     }
 
-    //create 
-    async createNickname(request, response, next) {
-        const nicknameId = await this.nicknameService.createNickname()
-        response.json(nicknameId)
-    }
 
     // delete by id
     async deleteNickname(request, response, next) {
@@ -28,6 +34,17 @@ class NicknameController {
         if (nicknameId) {
             response.status(200).end(`nicknameId in id - ${nicknameId.id} has deleted`)
         } else next('Nickname not found for deleting')
+    }
+
+    //is LoggedIn
+    async isLogged(request, response) {
+        const { nickToken } = request.body;
+        const data = await this.nicknameService.isLogged(nickToken);
+        if (data) {
+            response.json(data);
+        } else {
+            response.status(200).send(false);
+        }
     }
 }
 

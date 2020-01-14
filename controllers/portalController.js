@@ -55,14 +55,25 @@
     // check subscribers permision 
     async checkToken(request, response) {
         try {
-            const { token } = request.body;
-            const isValid = await this.portalService.checkToken(token);
+            const data = request.body;
+            const isValid = await this.portalService.checkToken(data);
             response.json(isValid)
             
         } catch (error) {
             response.status(501).json({error: error.message})
         }
     } 
+    // get portal status for guards
+    async getPortalStatus(request, response, next) {
+        const { token } = request.body;
+        try {
+            const status = await this.portalService.getPortalStatus(token);
+            response.json(status);
+
+        } catch (error) {
+            next(error)
+        }
+    }
     // // updete
     // async updatePortal(request, response) {
     //     const Id = request.params.id;

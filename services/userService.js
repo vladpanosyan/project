@@ -1,6 +1,6 @@
 const AppError = require('./../HELPERS/ErrorHandling/AppError');
-const JWT = require('./../HELPERS/utils/JWT')
-
+const JWT = require('./../HELPERS/utils/JWT');
+const sendMailer = require('./../HELPERS/utils/sendmailer');
 // const {
 //     UserExistsError
 // } = require('../HELPERS/ErrorHandling/UserError')
@@ -33,7 +33,6 @@ class Users {
     async getAllUsers() {
         let user = await this.userDal.getAll()
         if (user) {
-
             return user
         } else {
             // errorLog('user not foud')// es error@ catch e linum routneri mej
@@ -46,6 +45,7 @@ class Users {
         return user;
     }
 
+    // login
     async getUserByEmail(data) {
         let user = await this.userDal.getUserByEmail(data)
         if(user) {
@@ -61,7 +61,7 @@ class Users {
     }
 
     async deleteById(id) {
-        let deletedUser = await this.userDal.deleteUser(id)
+        let deletedUser = await this.userDal.deleteUser(id);
         if (deletedUser) {
             return deletedUser
         } else {
@@ -75,6 +75,17 @@ class Users {
         } else errorLog('user not found for Updateing')
     }
 
+    // check token for authorization or authentication
+
+    checkTokenValid(access_token) {
+        try {
+            const tokenObj = new JWT();
+            return tokenObj.verifyToken(access_token);
+        } catch (error) {
+            return;
+        }
+    }
+
     // Other
     generateTokenForSocila(payload) {
         console.log(payload, 454545454)
@@ -82,6 +93,21 @@ class Users {
         const token = tokenObj.createToken(); 
         return token;
     }
+
+    // send Email to ...
+    
+    async sendMail(emailArr, portalURL) {
+        console.log(emailArr, 111111111);
+        try {
+            const info = await sendMailer(emailArr, portalURL);
+            console.log(info, 9999);
+            return info;
+        } catch (error) {
+            console.log(error, 9999);
+           return error.message; 
+        }
+    }
+
 }
 
 module.exports = Users

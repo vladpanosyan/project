@@ -2,7 +2,7 @@ const JWT = require('jsonwebtoken');
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 module.exports = class JWTFutures {
-    constructor(payload, options={}) {
+    constructor(payload = {}, options={}) {
         this.payload = payload;
         this.options = options; 
     }
@@ -12,7 +12,7 @@ module.exports = class JWTFutures {
     }
 
     verifyToken(token) {
-        return JWT.verify(token, SECRET_KEY)
+        return JWT.verify(token, SECRET_KEY);
     }
 
     createTokenForURL() {
