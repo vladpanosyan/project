@@ -10,7 +10,7 @@ class NicknameController {
             response.json(nickname)
             
         } catch (error) {
-            console.log(error.message, 15551515151515);
+            console.log(error.message, 155515157777);
         }
     }
     // find
@@ -36,13 +36,27 @@ class NicknameController {
         } else next('Nickname not found for deleting')
     }
 
-    //is LoggedIn
+    //is LoggedIn for click in cover component
     async isLogged(request, response) {
-        const { nickToken } = request.body;
-        const data = await this.nicknameService.isLogged(nickToken);
+        const { nickToken, portalId } = request.body;
+        const data = await this.nicknameService.isLogged(nickToken, portalId);
         if (data) {
             response.json(data);
         } else {
+            response.status(200).send(false);
+        }
+    }
+
+    // canactivate for guards
+    async canactivate(request, response) {
+        const { portalToken, nickToken } = request.body;
+        const data = await this.nicknameService.canactivate(portalToken, nickToken);
+
+        if (data) {
+            response.json(data);
+        } else if (data === null) {
+            response.json('not found nickData')
+        }else {
             response.status(200).send(false);
         }
     }

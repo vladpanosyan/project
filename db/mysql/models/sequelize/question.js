@@ -25,12 +25,16 @@ module.exports = (sequelize, DataTypes) => {
 
     Question.associate = function (models) {
         Question.belongsTo(models.Portals, {
+            // as: "portal",
+            as: "quToPortal",
             foreignKey: 'portalId',
         });
         Question.belongsTo(models.Nicknames, {
+            as: 'nickss',
             foreignKey: 'nicknameId',
         });
         Question.belongsToMany(models.Nicknames, {
+            as: 'question_likes',
             through: 'nicks_likes',
             foreignKey: 'questionId',
             timestamps: false
@@ -41,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
             timestamps: false
         })
         Question.hasMany(models.Answers, {
+            foreignKey: 'questionId'
+        })
+        Question.hasMany(models.Nick_likes, {
+            as: 'questionManyLikes',
             foreignKey: 'questionId'
         })
     };

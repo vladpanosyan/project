@@ -33,6 +33,15 @@ class Portals {
         } 
     }
 
+    async getUserPortals(userId) {
+        let portal = await this.portalDal.getUserPortals(userId);
+        if (portal) {
+            return portal
+        } else {
+            throw new Error('PORTAL NOT EXIST')
+        } 
+    }
+
     async getActivePortal() {
         const activePortal = await this.portalDal.getActivePortal();
         if(activePortal) {

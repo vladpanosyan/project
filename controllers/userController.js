@@ -72,8 +72,8 @@ class UserController {
     // check token 
 
     checkTokenValid(request, response) {
-        const { access_token } = request.body;
-        const isValid = this.userService.checkTokenValid(access_token);
+        const { accessToken } = request.body;
+        const isValid = this.userService.checkTokenValid(accessToken);
         response.status(200).send(!!isValid);
     }
 
@@ -122,7 +122,6 @@ class UserController {
     // send email to ...
     async sendMail(request, response) {
         const {email, url} = request.body;
-        console.log(email, url, 1111111);
         const result = await this.userService.sendMail(email, url);
         response.json({result});
     }

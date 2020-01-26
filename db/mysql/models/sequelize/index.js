@@ -52,6 +52,7 @@ module.exports = sequelize
         // .then(customer => console.log(customer))
         // console.log(db)
         global.UserModel = db.Users;
+        global.sequelize = sequelize; 
         return db //exports into mysql/models/index.js
     })
     .catch(err => {

@@ -23,6 +23,15 @@ module.exports = class Portal {
         return portals;
     }
 
+    async getUserPortals(userId) {
+        let portals = await this.model.findAll({
+            where: {
+                userId
+            }
+        })
+        return portals;
+    }
+
     async getActivePortal() { // ste usumnasiri te vorna active portal
         const activePortal = await this.model.findAll({
             where: {
@@ -36,6 +45,7 @@ module.exports = class Portal {
 
     async checkToken(data) {
         const isValid = await this.model.findAll({
+            raw: true,
             where: {
                 id: data.portalId,
                 token: data.token

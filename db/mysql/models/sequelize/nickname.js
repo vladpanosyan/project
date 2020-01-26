@@ -8,10 +8,10 @@ module.exports = (sequelize, Sequelize) => {
         },
         name: {
             type: Sequelize.STRING(50),
-            unique: {
-                args: true,
-                msg: 'The nickName that You entered is already exist'
-            },
+            // unique: {
+            //     args: true,
+            //     msg: 'The nickName that You entered is already exist'
+            // },
         },
         image: {
             type: Sequelize.STRING(255),
@@ -19,25 +19,32 @@ module.exports = (sequelize, Sequelize) => {
         
     }, {
         timestamps: false,
-        tableName: 'nicknames'
+        tableName: 'nicknames',
+        indexes: [{
+            unique: true,
+            fields: ['name', 'portalId'],
+            msg: 'The nickName that You entered is already exist'
+        }]
     });
 
     Nickname.associate = function (models) {
         Nickname.belongsTo(models.Portals, {
             foreignKey: 'portalId',
-            // as: 'customers'
+            as: 'nickToPortal'
         });
-        Nickname.belongsToMany(models.Portals, {
-            through: 'nicks_portals',
-            foreignKey: 'nicknameId',
-            timestamps: false
-        })
         
         Nickname.hasMany(models.Questions, {
             foreignKey: 'nicknameId',
-            // as: 'customers'
+            as: 'question'
         });
+
+        Nickname.hasMany(models.Nick_likes, {
+            as: 'nicknameManyLikes',
+            foreignKey: 'nicknameId'
+        })
+
         Nickname.belongsToMany(models.Questions, {
+            as: 'nick_like',
             through: 'nicks_likes',
             foreignKey: 'nicknameId',
             timestamps: false

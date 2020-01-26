@@ -3,19 +3,25 @@ class Questions {
         this.questionDal = questionDal
     }
     async createQuestion(data) {
-        let question = await this.questionDal.createData(data)
+        let question = await this.questionDal.createQuestion(data)
         if (question) {
             return question
         } else {
             errorLog('question not creted')
         } 
+        // console.log("question created", 555555, data)
     }
-    async getAllQuestions() {
-        let question = await this.questionDal.getAllQuestions()
-        if (question) {
-            return question
+    async getAllQuestions(portalToken) {
+        let questions = await this.questionDal.getAllQuestions(portalToken);
+        // let questionLikers = await this.questionDal.getQuestionLikers(portalToken);
+
+        // console.log(JSON.stringify(questionLikers, null, 2))
+        // console.log(JSON.stringify(questions, null, 2));
+
+        if (questions) {
+            return questions
         } else {
-            // errorLog('question not foud')// es error@ catch e linum routneri mej
+            // errorLog('questions not foud')// es error@ catch e linum routneri mej
             throw new Error('PORTAL NOT EXIST')
         } 
     }

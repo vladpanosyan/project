@@ -1,15 +1,19 @@
 const DalFactory             = require('./../DAL/dalFactory');
-const AbstractServiceFactory = require('./../services/abstractServiceFactory')
-const ControllerFactory      = require('./../controllers/controllerFactory')
+const AbstractServiceFactory = require('./../services/abstractServiceFactory');
+const ControllerFactory      = require('./../controllers/controllerFactory');
 
 module.exports = (async () => { 
     try {
-        const models = await require('./../db')() // array of objects model
-        const DAL = new DalFactory(models)
+        const model = await require('./../db')() // array of objects model
+        const DAL = new DalFactory(model);
         const SERVICES = new AbstractServiceFactory(DAL.create()).create() 
         // ete petq e vor miajamanak A 2 db neri het apa dra hamar arandzin service pti sargvi,
-        const CONTROLLERS = new ControllerFactory(SERVICES).create()
-        return CONTROLLERS;
+        const CONTROLLERS = new ControllerFactory(SERVICES).create() 
+        return {
+            CONTROLLERS,
+            SERVICES,
+            DAL
+        }
         
     } catch (error) {
         // ste kara kodi normal A jamanak(erb orinak db miacac a ) eli error trni u xarnvi db errori het vor@

@@ -3,15 +3,20 @@ class QuestionController {
         this.questionService = questionService
     }
     // find
-    async showResult(request, response) {
+    async getAll(request, response) {
         try{
+            const portalToken = request.params.token
             console.log(32323232323, 'in controller QUESTION')
-            let questions = await this.questionService.getAllQuestions()
-            console.log(questions, 4444444)
-            response.json({ questions })
+            let questions = await this.questionService.getAllQuestions(portalToken)
+            // console.log(questions, 4444444)
+            response.json( questions )
         }
         catch(e) {
-            console.log(e.message, 15551515151515) /// amena lav error handlingi tex@
+            console.log(e, 111222111222333) /// amena lav error handlingi tex@
+            response.status(400).send({
+                success: "fail",
+                message: "questions not found, false portal adress"
+            })
         }
     }
 

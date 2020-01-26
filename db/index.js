@@ -12,7 +12,7 @@ async function* fooo (){
     } catch (error) {
         console.log(error.name, 77777)
         if(error.name === 'SequelizeConnectionRefusedError') {
-        } // stexic kangnecnum enq loop ev vercnum enq error@ karanq log anenq
+        } // stexic kangnecnum enq loop ev vercnum enq error@ karanq log anenq ,
         
     }
 }

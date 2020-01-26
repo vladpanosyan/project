@@ -12,8 +12,6 @@ const options = {}
 options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = process.env.JWT_SECRET_KEY;
 
-console.log(options, 201);
-
 module.exports = (passport) => (app) => {
     app.use(passport.initialize());
 

@@ -97,7 +97,6 @@ class Users {
     // send Email to ...
     
     async sendMail(emailArr, portalURL) {
-        console.log(emailArr, 111111111);
         try {
             const info = await sendMailer(emailArr, portalURL);
             console.log(info, 9999);

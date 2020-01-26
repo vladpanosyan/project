@@ -4,8 +4,9 @@ const router = express.Router();
 module.exports = async (userController, authMiddleware, facebookFuture) => {
   try {
     router.get('/', userController.showResult.bind(userController));
-    router.post('/register', userController.createUser.bind(userController));
     router.get('/profile/:id', authMiddleware, userController.getUsersById.bind(userController));
+    
+    router.post('/register', userController.createUser.bind(userController));
     router.post('/login', userController.userLogin.bind(userController));
     router.post('/auth/facebook', facebookFuture.facebookAuthCheck(), userController.facebookAuthCheck.bind(userController));
     router.post('/checkTokenValid', userController.checkTokenValid.bind(userController));

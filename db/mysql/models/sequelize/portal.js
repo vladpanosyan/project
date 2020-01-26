@@ -41,10 +41,10 @@ module.exports = (sequelize, Sequelize) => {
             foreignKey: 'userId',
             // as:
         });
-        Portal.belongsToMany(models.Nicknames, {
-            through: 'nicks_portals',
-            foreignKey: 'portalId'
-        });
+        // Portal.belongsToMany(models.Nicknames, {
+        //     through: 'nicks_portals',
+        //     foreignKey: 'portalId'
+        // });
         Portal.hasMany(models.Nicknames, {
             foreignKey: 'portalId'
         })

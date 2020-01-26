@@ -7,18 +7,33 @@
         try{
             console.log(32323232323, 'in controller PORTAL')
             let portals = await this.portalService.getAll()
-            response.json(portals)
+            response.json(portals);
+            // io.emit('showPortals')
         }
         catch(e) {
-            console.log(e.message, 15551515151515) /// amena lav error handlingi tex@
+            console.log(e.message, 7777777) /// amena lav error handlingi tex@
         }
+    }
+
+    // get specificc user portals
+    async getUserPortals(request, response) {
+        try{
+            const { userId } = request.body;
+            let portals = await this.portalService.getUserPortals(userId);
+            response.json(portals);
+        }
+        catch(e) {
+            console.log(e.message, 2525252525252525) 
+        } 
     }
 
     //create 
     async createPortal(request, response) {
+        const io = request.app.get("io");       
         const portalData = request.body;
-        const portal = await this.portalService.createPortal(portalData)
-        response.json(portal)
+        const portal = await this.portalService.createPortal(portalData);
+        response.json(portal);
+        io.emit('showPortals')
     }
 
     // delete by id
@@ -74,29 +89,6 @@
             next(error)
         }
     }
-    // // updete
-    // async updatePortal(request, response) {
-    //     const Id = request.params.id;
-    //     const newData = request.body;
-    //     let newUser = await this.portalService.updateUserById(Id, newData)
-    //     if (newUser) {
-    //         response.status(200).end(`portalId in Id - ${Id} has updated. New data is ${JSON.stringify(newData)}`)
-    //     } els(`User not found for Updateing`)
-    // }
-
 }
 
 module.exports = PortalController
-// module.exports = async () => {
-//     try {
-//         const { Portals } = await require('./index')();
-//         return {
-//             portalController: new PortalController(Portals),
-//         }
-//     } catch (error) {
-// console.log(error, 210989)
-//         // if (error.message === "db connect error") {
-//         //     throw new Error('db connect error')
-//         // }
-//     }
-// }

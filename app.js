@@ -44,7 +44,6 @@ app.use(express.urlencoded({ extended: false }));
 module.exports = (async (message) => {
   if (message) {
     // res.status(500).status
-    console.log(message, 665566)
     app.get('/*', (req, res) => {
       res.render('error', {message})
     })

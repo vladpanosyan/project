@@ -7,6 +7,7 @@ module.exports =  async (nicknameController) => {
     router.get('/', nicknameController.showResult.bind(nicknameController));
     router.post('/addNickname', nicknameController.createNickname.bind(nicknameController));
     router.post('/isLogged', nicknameController.isLogged.bind(nicknameController));
+    router.post('/canactivate', nicknameController.canactivate.bind(nicknameController));
     return  router;
   }
   

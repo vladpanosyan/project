@@ -9,6 +9,7 @@ module.exports = class AbstractServiceFactory {
         if(this.DAL.hasOwnProperty('sequelize') && this.DAL.hasOwnProperty('mongoose')) {
 
         } else {
+            // console.log(this.DAL, 5555)
             return new ServiceFactory(this.DAL).create()
         }
     }
