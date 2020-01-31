@@ -68,8 +68,33 @@ module.exports = class Question {
                 return arr
             }
         }, [])
-        console.log(JSON.stringify(questions, null, 2));
+        // console.log(JSON.stringify(questions, null, 2));
         return questions;
+    }
+
+    async getTop10(portalId) {
+        const getTop10 = await this.model.findAll({
+            attributes: [[sequelize.fn('count', sequelize.col(`questionManyLikes.questionId`)), 'likeTotal'], 'id', 'question'],
+            required: true,
+            where: {
+                portalId
+            },
+            include: [{
+                required: true,
+                as: 'nickss',
+                model: this.models.Nicknames
+            }, {
+                model: this.models.Nick_likes,
+                as: 'questionManyLikes',
+                attributes:[]
+            }],
+            group: ['Questions.id'],
+            order: sequelize.literal('likeTotal DESC'),
+            limit: 3,
+            subQuery: false
+        });
+        // console.log(JSON.stringify(getTop10, null, 2), 8888888888888);
+        return getTop10;
     }
 
     async deleteQuestion(id) {

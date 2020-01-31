@@ -3,15 +3,14 @@ class AnswerController {
         this.answerService = answerService
     }
     // find
-    async showResult(request, response) {
+    async getAll(request, response) {
         try{
-            console.log(32323232323, 'in controller ANSWERS')
-            let answers = await this.answerService.getAllAnswers()
-            console.log(answers, 4444444)
-            response.json({ answers })
+            const portalId = request.params.portalId;
+            let answers = await this.answerService.getAllAnswers(portalId)
+            response.json(answers)
         }
         catch(e) {
-            console.log(e.message, 15551515151515) /// amena lav error handlingi tex@
+            console.log(e.message, 45454545454) // amena lav error handlingi tex@
         }
     }
 

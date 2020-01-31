@@ -31,8 +31,13 @@ module.exports = async (socketIo) => {
 
         })
 
-        socket.on('send_question', (message) => {
-            socketIo.emit('answ_message', message)
+        socket.on('send_question', async (message) => {
+            // console.log(message, 774411)
+            const { Answers } = SERVICES;
+            const answer = await Answers.addAnswer(message);
+            const id = answer.id;
+            const fullAnswer = await Answers.getCurrentAnswer(id);
+            socketIo.emit('answ_message', fullAnswer);
         })
 
         //get likes count

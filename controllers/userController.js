@@ -1,5 +1,9 @@
 const AppError = require('./../HELPERS/ErrorHandling/AppError')
-const { userValidation, userLoginValidation } = require('./../HELPERS/validation/userValidation')
+const { 
+    userValidation,
+    userLoginValidation,
+    userSendMailValidation
+} = require('./../HELPERS/validation/userValidation')
 
 class UserController {
     constructor(userService) {
@@ -122,26 +126,19 @@ class UserController {
     // send email to ...
     async sendMail(request, response) {
         const {email, url} = request.body;
-        const result = await this.userService.sendMail(email, url);
-        response.json({result});
+        const isValidEmailadresse = userSendMailValidation(email);
+        const notNullableValues = isValidEmailadresse.value.filter(item => item)
+
+        if (!isValidEmailadresse.error ) {
+            const result = await this.userService.sendMail(email, url);
+            response.json({result});
+        } else if (isValidEmailadresse && notNullableValues.length) {
+            const result = await this.userService.sendMail(notNullableValues, url);
+            response.json({result, message: 'You have some false email Adress format'});
+        } else {
+            response.status(402).send({sueccess: 'not valid email adresses'})
+        }
     }
 }
 
 module.exports = UserController
-
-// module.exports = async () => {
-//     try {
-//         // const { Users } = await require('../app_init/dal_service_init')();
-//         const { Users } = await require('./index')();
-
-//         return {
-//             userController: new UserController(Users),
-//         }
-//     } catch (error) {
-// console.log(error.message, 474747474)
-//         // if (error.message === "db connect error") {
-//         //     throw new Error('db connect error')
-//         // }
-//         throw new Error('Connection error "from -> userController"')
-//     }
-// }

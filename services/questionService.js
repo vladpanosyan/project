@@ -13,11 +13,8 @@ class Questions {
     }
     async getAllQuestions(portalToken) {
         let questions = await this.questionDal.getAllQuestions(portalToken);
-        // let questionLikers = await this.questionDal.getQuestionLikers(portalToken);
-
         // console.log(JSON.stringify(questionLikers, null, 2))
         // console.log(JSON.stringify(questions, null, 2));
-
         if (questions) {
             return questions
         } else {
@@ -32,6 +29,11 @@ class Questions {
         } else {
             errorLog('question not found for deleting')
         }
+    }
+
+    async getTop10(portalId) {
+        const getTop10 = await this.questionDal.getTop10(portalId);
+        return getTop10;
     }
 }
 

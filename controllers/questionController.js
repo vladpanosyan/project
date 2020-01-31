@@ -32,21 +32,18 @@ class QuestionController {
         const questionId = await this.questionService.deleteById(request.params.id)
         if (questionId) {
             response.status(200).end(`questionId in id - ${questionId.id} has deleted`)
-        } els('User not found for deleting')
+        } else('User not found for deleting')
+    }
+
+    async getTop10(request, response) {
+        try {
+            const portalId = request.params.portalID;
+            console.log(portalId, 333444)
+            const top10 = await this.questionService.getTop10(portalId);
+            response.json(top10);
+        } catch (error) {
+            console.log(error.message, 222222)
+        }
     }
 }
 module.exports = QuestionController
-
-// module.exports = async () => {
-//     try {
-//         const { Questions } = await require('./index')();
-//         return {
-//             questionController: new QuestionController(Questions),
-//         }
-//     } catch (error) {
-// console.log(error, 210989)
-//         // if (error.message === "db connect error") {
-//         //     throw new Error('db connect error')
-//         // }
-//     }
-// }

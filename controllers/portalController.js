@@ -89,6 +89,10 @@
             next(error)
         }
     }
+
+    exp(request, response) {
+        response.json({experemet: "ok"})
+    }
 }
 
 module.exports = PortalController
